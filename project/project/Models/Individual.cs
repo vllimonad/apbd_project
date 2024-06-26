@@ -10,4 +10,6 @@ public class Individual: Client
     public string LastName { get; set; } = String.Empty;
     [Required]
     public long PESEL { get; set; }
+
+    public bool IsDeleted { get; set; } = false;
 }

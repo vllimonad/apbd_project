@@ -10,7 +10,7 @@ public class Discount
     public string Name { get; set; } = String.Empty;
     [Required]
     [Range(1, 100)]
-    public string Value { get; set; } = String.Empty;
+    public double Value { get; set; }
     [Required]
     public DateTime StartTime { get; set; }
     [Required]

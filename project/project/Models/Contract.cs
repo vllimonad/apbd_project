@@ -17,8 +17,8 @@ public class Contract
     public DateTime StartDate { get; set; }
     [Required]
     public DateTime EndDate { get; set; }
-    [Required]
-    public bool IsSigned { get; set; }
+
+    [Required] public bool IsSigned { get; set; } = false;
 
     [ForeignKey(nameof(ClientId))]
     public Client Client = null!;

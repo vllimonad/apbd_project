@@ -14,5 +14,5 @@ public class Software
     public string Category { get; set; } = String.Empty;
     
     public ICollection<Contract> Contracts = new List<Contract>();
-    public ICollection<Versioin> Versioins = new List<Versioin>();
+    public ICollection<Version> Versions = new List<Version>();
 }
