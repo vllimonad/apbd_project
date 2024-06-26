@@ -74,6 +74,7 @@ namespace project.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PESEL = table.Column<long>(type: "bigint", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -142,8 +143,8 @@ namespace project.Migrations
                 columns: new[] { "Id", "ClientId", "EndDate", "IsSigned", "Price", "SoftwareId", "StartDate", "Version" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 26, 14, 28, 17, 589, DateTimeKind.Local).AddTicks(3290), "first" },
-                    { 2, 2, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 26, 14, 28, 17, 589, DateTimeKind.Local).AddTicks(3550), "first" }
+                    { 1, 1, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1000), "first" },
+                    { 2, 2, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1270), "first" }
                 });
 
             migrationBuilder.InsertData(
@@ -158,12 +159,12 @@ namespace project.Migrations
 
             migrationBuilder.InsertData(
                 table: "Individuals",
-                columns: new[] { "Id", "Address", "Email", "FirstName", "LastName", "PESEL", "PhoneNumber" },
+                columns: new[] { "Id", "Address", "Email", "FirstName", "IsDeleted", "LastName", "PESEL", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { 1, "Rome", "iuwnb4f84b@gamil.com", "name1", "surname1", 29748384850L, "+29840928565" },
-                    { 2, "London", "aibd7662@gamil.com", "name2", "surname2", 98347598375L, "+39482209755" },
-                    { 3, "Vienna", "blvne784@gamil.com", "name3", "surname3", 92480370580L, "+98246950593" }
+                    { 1, "Rome", "iuwnb4f84b@gamil.com", "name1", false, "surname1", 29748384850L, "+29840928565" },
+                    { 2, "London", "aibd7662@gamil.com", "name2", false, "surname2", 98347598375L, "+39482209755" },
+                    { 3, "Vienna", "blvne784@gamil.com", "name3", false, "surname3", 92480370580L, "+98246950593" }
                 });
 
             migrationBuilder.InsertData(

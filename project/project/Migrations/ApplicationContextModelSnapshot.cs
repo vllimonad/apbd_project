@@ -126,7 +126,7 @@ namespace project.Migrations
                             IsSigned = false,
                             Price = 28497.0,
                             SoftwareId = 1,
-                            StartDate = new DateTime(2024, 6, 26, 14, 28, 17, 589, DateTimeKind.Local).AddTicks(3290),
+                            StartDate = new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1000),
                             Version = "first"
                         },
                         new
@@ -137,7 +137,7 @@ namespace project.Migrations
                             IsSigned = false,
                             Price = 8575.0,
                             SoftwareId = 2,
-                            StartDate = new DateTime(2024, 6, 26, 14, 28, 17, 589, DateTimeKind.Local).AddTicks(3550),
+                            StartDate = new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1270),
                             Version = "first"
                         });
                 });
@@ -214,6 +214,9 @@ namespace project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -236,6 +239,7 @@ namespace project.Migrations
                             Address = "Rome",
                             Email = "iuwnb4f84b@gamil.com",
                             FirstName = "name1",
+                            IsDeleted = false,
                             LastName = "surname1",
                             PESEL = 29748384850L,
                             PhoneNumber = "+29840928565"
@@ -246,6 +250,7 @@ namespace project.Migrations
                             Address = "London",
                             Email = "aibd7662@gamil.com",
                             FirstName = "name2",
+                            IsDeleted = false,
                             LastName = "surname2",
                             PESEL = 98347598375L,
                             PhoneNumber = "+39482209755"
@@ -256,6 +261,7 @@ namespace project.Migrations
                             Address = "Vienna",
                             Email = "blvne784@gamil.com",
                             FirstName = "name3",
+                            IsDeleted = false,
                             LastName = "surname3",
                             PESEL = 92480370580L,
                             PhoneNumber = "+98246950593"
