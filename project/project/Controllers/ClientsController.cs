@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Models;
 using project.Models.DTOs;
@@ -6,7 +7,7 @@ using project.Services;
 namespace project.Controllers;
 
 [ApiController]
-[Route("/api/clients")]
+[Route("/api/client")]
 public class ClientsController: ControllerBase
 {
     private readonly IApplicationService _service;
@@ -16,6 +17,7 @@ public class ClientsController: ControllerBase
         _service = service;
     }
 
+    [Authorize]
     [HttpPost("/addIndividual")]
     public IActionResult AddIndividual(NewIndividualDTO dto)
     {
@@ -33,6 +35,7 @@ public class ClientsController: ControllerBase
         return Created("api/clients/"+individual.Id, individual);
     }
     
+    [Authorize]
     [HttpPost("/addCompany")]
     public async Task<IActionResult> AddCompany(NewCompanyDTO dto)
     {
@@ -50,6 +53,7 @@ public class ClientsController: ControllerBase
     }
     
     [HttpDelete("/removeClient")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> RemoveClient(int id)
     {
         Company company = await _service.GetCompanyById(id);
@@ -67,6 +71,7 @@ public class ClientsController: ControllerBase
     }
     
     [HttpPost("/updateIndividual/{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateIndividual(int id, UpdateIndividualDTO dto)
     {
         Individual individual = await _service.GetIndividualById(id);
@@ -83,6 +88,7 @@ public class ClientsController: ControllerBase
     }
     
     [HttpPost("/updateCompany/{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateCompany(int id, UpdateCompanyDTO dto)
     {
         Company company = await _service.GetCompanyById(id);

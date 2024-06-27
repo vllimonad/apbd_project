@@ -66,6 +66,24 @@ namespace project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefreshTokenExp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Individuals",
                 columns: table => new
                 {
@@ -143,8 +161,8 @@ namespace project.Migrations
                 columns: new[] { "Id", "ClientId", "EndDate", "IsSigned", "Price", "SoftwareId", "StartDate", "Version" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1000), "first" },
-                    { 2, 2, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1270), "first" }
+                    { 1, 1, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 27, 21, 25, 57, 704, DateTimeKind.Local).AddTicks(9990), "first" },
+                    { 2, 2, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 27, 21, 25, 57, 705, DateTimeKind.Local).AddTicks(270), "first" }
                 });
 
             migrationBuilder.InsertData(
@@ -152,9 +170,9 @@ namespace project.Migrations
                 columns: new[] { "Id", "EndTime", "Name", "StartTime", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Black Friday Discount", new DateTime(2024, 6, 26, 0, 0, 0, 0, DateTimeKind.Local), 10.0 },
-                    { 2, new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Year Discount", new DateTime(2024, 6, 26, 0, 0, 0, 0, DateTimeKind.Local), 15.0 },
-                    { 3, new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Summer Discount", new DateTime(2024, 6, 26, 0, 0, 0, 0, DateTimeKind.Local), 30.0 }
+                    { 1, new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Black Friday Discount", new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local), 10.0 },
+                    { 2, new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Year Discount", new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local), 15.0 },
+                    { 3, new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Summer Discount", new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local), 30.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -211,6 +229,9 @@ namespace project.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discounts");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Individuals");

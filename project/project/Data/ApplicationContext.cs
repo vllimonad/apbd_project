@@ -22,6 +22,8 @@ public class ApplicationContext: DbContext
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Software> Softwares { get; set; }
     public DbSet<Version> Versions { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

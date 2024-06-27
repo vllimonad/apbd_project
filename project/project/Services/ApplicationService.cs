@@ -1,16 +1,25 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using project.Data;
 using project.Models;
+using project.Models.DTOs;
 
 namespace project.Services;
 
 public class ApplicationService: IApplicationService
 {
     private readonly ApplicationContext _context;
+    private readonly IConfiguration _config;
 
-    public ApplicationService(ApplicationContext context)
+    public ApplicationService(ApplicationContext context, IConfiguration config)
     {
         _context = context;
+        _config = config;
     }
 
     public async Task AddIndividual(Individual individual)
@@ -68,4 +77,38 @@ public class ApplicationService: IApplicationService
         await _context.AddAsync(payment);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<Contract> GetContractById(int id)
+    {
+        return await _context.Contracts.FindAsync(id);
+    }
+    
+    public async Task<ICollection<Payment>> GetAllPayments()
+    {
+        return await _context.Payments.ToListAsync();
+    }
+    
+    public async Task<ICollection<Contract>> GetAllContracts()
+    {
+        return await _context.Contracts.ToListAsync();
+    }
+
+    public async Task<double> Convert(double amount, string currency)
+    {
+        if (currency == "PLN") return amount;
+        HttpClient client = new HttpClient();
+        var response = await client.GetAsync("http://api.nbp.pl/api/exchangerates/rates/A/" + currency);
+        Currency c = await response.Content.ReadAsAsync<Currency>();
+        return amount / c.rates[0].mid;
+    }
+}
+
+public class Currency
+{
+    public List<Rate> rates;
+}
+
+public class Rate
+{
+    public double mid;
 }

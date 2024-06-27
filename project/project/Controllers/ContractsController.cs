@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Models;
 using project.Models.DTOs;
@@ -6,7 +7,7 @@ using project.Services;
 namespace project.Controllers;
 
 [ApiController]
-[Route("/api/contracts")]
+[Route("/api/contract")]
 public class ContractsController: ControllerBase
 {
     private readonly IApplicationService _service;
@@ -17,6 +18,7 @@ public class ContractsController: ControllerBase
     }
 
     [HttpPost("/create")]
+    [Authorize]
     public async Task<IActionResult> CreateContract(NewContractDTO dto)
     {
         Company company = await _service.GetCompanyById(dto.ClientId);
@@ -47,6 +49,7 @@ public class ContractsController: ControllerBase
     }
 
     [HttpPost("/addPayment")]
+    [Authorize]
     public async Task<IActionResult> IssuePayment(NewPaymentDTO dto)
     {
         if (!await _service.DoesContractExist(dto.ContractId))

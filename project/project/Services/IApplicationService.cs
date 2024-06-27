@@ -18,4 +18,9 @@ public interface IApplicationService
     Task<bool> DoesContractExist(int id);
 
     Task AddPayment(Payment payment);
+
+    Task<ICollection<Payment>> GetAllPayments();
+    Task<Contract> GetContractById(int id);
+    Task<ICollection<Contract>> GetAllContracts();
+    Task<double> Convert(double amount, string currency);
 }

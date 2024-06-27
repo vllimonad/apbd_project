@@ -12,7 +12,7 @@ using project.Data;
 namespace project.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240626214833_Init")]
+    [Migration("20240627192558_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -129,7 +129,7 @@ namespace project.Migrations
                             IsSigned = false,
                             Price = 28497.0,
                             SoftwareId = 1,
-                            StartDate = new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1000),
+                            StartDate = new DateTime(2024, 6, 27, 21, 25, 57, 704, DateTimeKind.Local).AddTicks(9990),
                             Version = "first"
                         },
                         new
@@ -140,7 +140,7 @@ namespace project.Migrations
                             IsSigned = false,
                             Price = 8575.0,
                             SoftwareId = 2,
-                            StartDate = new DateTime(2024, 6, 26, 23, 48, 32, 819, DateTimeKind.Local).AddTicks(1270),
+                            StartDate = new DateTime(2024, 6, 27, 21, 25, 57, 705, DateTimeKind.Local).AddTicks(270),
                             Version = "first"
                         });
                 });
@@ -176,7 +176,7 @@ namespace project.Migrations
                             Id = 1,
                             EndTime = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Black Friday Discount",
-                            StartTime = new DateTime(2024, 6, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartTime = new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Value = 10.0
                         },
                         new
@@ -184,7 +184,7 @@ namespace project.Migrations
                             Id = 2,
                             EndTime = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "New Year Discount",
-                            StartTime = new DateTime(2024, 6, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartTime = new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Value = 15.0
                         },
                         new
@@ -192,9 +192,45 @@ namespace project.Migrations
                             Id = 3,
                             EndTime = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Summer Discount",
-                            StartTime = new DateTime(2024, 6, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartTime = new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Value = 30.0
                         });
+                });
+
+            modelBuilder.Entity("project.Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("project.Models.Individual", b =>
