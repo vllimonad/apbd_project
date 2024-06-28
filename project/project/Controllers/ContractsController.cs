@@ -55,6 +55,11 @@ public class ContractsController: ControllerBase
     {
         if (!await contractsService.DoesContractExist(dto.ContractId))
             return NotFound("Contract with this id does not exist");
+        
+        var contract = await contractsService.GetContractById(dto.ContractId);
+        if (dto.Date > contract.EndDate) 
+            return BadRequest("We cannot accept the payment for a contract after the date specified within the contract");
+        
 
         Payment payment = new Payment()
         {
@@ -64,7 +69,19 @@ public class ContractsController: ControllerBase
         };
 
         await contractsService.AddPayment(payment);
-        
+        List<Payment> payments = await contractsService.GetPaymentsOfContract(dto.ContractId);
+        var sum = 0.0;
+        for (int i = 0; i < payments.Count; i++)
+        {
+            sum += payments[i].Amount;
+        }
+
+        if (sum == contract.Price)
+        {
+            contract.IsSigned = true;
+            await contractsService.UpdateContract(contract);
+        }
+
         return Created("/api/payments/"+payment.Id, payment);
     }
 }

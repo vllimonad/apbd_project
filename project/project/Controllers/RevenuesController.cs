@@ -20,22 +20,17 @@ public class RevenuesController: ControllerBase
     [Authorize]
     public async Task<IActionResult> CalculateRevenue(int? SoftwareId, string Currency = "PLN")
     {
-        ICollection<Payment> payments = await _service.GetAllPayments();
+        ICollection<Contract> contracts = await _service.GetAllContracts();
         List<double> amounts = new List<double>();
         double sum = 0;
         
         if (SoftwareId is null) 
         {
-            amounts = payments.Select(p => p.Amount).ToList();
+            amounts = contracts.Where(c => c.IsSigned).Select(c => c.Price).ToList();
         } 
-        else 
+        else
         {
-            for (int i = 0; i < payments.Count; i++)
-            {
-                Contract contract = await _service.GetContractById(payments.ElementAt(i).ContractId);
-                if (contract.SoftwareId == SoftwareId) 
-                    amounts.Add(payments.ElementAt(i).Amount);
-            }
+            amounts = contracts.Where(c => c.SoftwareId == SoftwareId & c.IsSigned).Select(c => c.Price).ToList();
         }
         
         for (int i = 0; i < amounts.Count; i++)

@@ -35,4 +35,20 @@ public class ContractsService: IContractsService
         await _context.AddAsync(payment);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<List<Payment>> GetPaymentsOfContract(int id)
+    {
+        return await _context.Payments.Where(p => p.ContractId == id).ToListAsync();
+    }
+    
+    public async Task<Contract> GetContractById(int id)
+    {
+        return await _context.Contracts.FindAsync(id);
+    }
+    
+    public async Task UpdateContract(Contract contract)
+    {
+        _context.Contracts.Update(contract);
+        await _context.SaveChangesAsync();
+    }
 }
