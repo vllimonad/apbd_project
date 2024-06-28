@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using project.Data;
 using project.Middlewares;
 using project.Services;
+using project.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddScoped<IClientsService, ClientsService>();
+builder.Services.AddScoped<IContractsService, ContractsService>();
+builder.Services.AddScoped<IRevenuesService, RevenuesService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddDbContext<ApplicationContext>(

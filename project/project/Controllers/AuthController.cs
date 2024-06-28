@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Models.DTOs;
-using project.Services;
-
+using project.Services.Interfaces;
 namespace project.Controllers;
 
 [ApiController]

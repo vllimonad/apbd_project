@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Models;
-using project.Services;
+using project.Services.Interfaces;
 
 namespace project.Controllers;
 
@@ -9,9 +9,9 @@ namespace project.Controllers;
 [Route("/api/revenue")]
 public class RevenuesController: ControllerBase
 {
-    private readonly IApplicationService _service;
+    private readonly IRevenuesService _service;
 
-    public RevenuesController(IApplicationService service)
+    public RevenuesController(IRevenuesService service)
     {
         _service = service;
     }
@@ -36,8 +36,6 @@ public class RevenuesController: ControllerBase
                 if (contract.SoftwareId == SoftwareId) 
                     amounts.Add(payments.ElementAt(i).Amount);
             }
-            amounts = payments.Where(p => p.Contract.SoftwareId == SoftwareId)
-                .Select(p => p.Amount).ToList();
         }
         
         for (int i = 0; i < amounts.Count; i++)

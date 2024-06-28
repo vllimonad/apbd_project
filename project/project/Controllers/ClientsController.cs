@@ -2,17 +2,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Models;
 using project.Models.DTOs;
-using project.Services;
-
+using project.Services.Interfaces;
 namespace project.Controllers;
 
 [ApiController]
 [Route("/api/client")]
 public class ClientsController: ControllerBase
 {
-    private readonly IApplicationService _service;
+    private readonly IClientsService _service;
 
-    public ClientsController(IApplicationService service)
+    public ClientsController(IClientsService service)
     {
         _service = service;
     }

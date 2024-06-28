@@ -2,36 +2,37 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project.Models;
 using project.Models.DTOs;
-using project.Services;
-
+using project.Services.Interfaces;
 namespace project.Controllers;
 
 [ApiController]
 [Route("/api/contract")]
 public class ContractsController: ControllerBase
 {
-    private readonly IApplicationService _service;
-
-    public ContractsController(IApplicationService service)
+    private readonly IContractsService contractsService;
+    private readonly IClientsService clientsService;
+    
+    public ContractsController(IContractsService contractsService, IClientsService clientsService)
     {
-        _service = service;
+        this.contractsService = contractsService;
+        this.clientsService = clientsService;
     }
-
+    
     [HttpPost("/create")]
     [Authorize]
     public async Task<IActionResult> CreateContract(NewContractDTO dto)
     {
-        Company company = await _service.GetCompanyById(dto.ClientId);
-        Individual individual = await _service.GetIndividualById(dto.ClientId);
+        Company company = await clientsService.GetCompanyById(dto.ClientId);
+        Individual individual = await clientsService.GetIndividualById(dto.ClientId);
         if ((company is null && individual is null) || individual.IsDeleted) 
             return NotFound("Client with this id does not exist");
 
-        if (!await _service.DoesSoftwareExist(dto.SoftwareId)) 
+        if (!await contractsService.DoesSoftwareExist(dto.SoftwareId)) 
             return NotFound("Software with this id does not exist");
 
         int NumberOfDays = (dto.EndDate - dto.StartDate).Days;
         if (NumberOfDays < 3 || NumberOfDays > 30)
-            return BadRequest("he time range should be at least 3 days and at most 30 days");
+            return BadRequest("The time range should be at least 3 days and at most 30 days");
 
         Contract contract = new Contract()
         {
@@ -43,7 +44,7 @@ public class ContractsController: ControllerBase
             EndDate = dto.EndDate
         };
 
-        await _service.AddContract(contract);
+        await contractsService.AddContract(contract);
         
         return Created("/api/contracts/"+contract.Id, contract);
     }
@@ -52,7 +53,7 @@ public class ContractsController: ControllerBase
     [Authorize]
     public async Task<IActionResult> IssuePayment(NewPaymentDTO dto)
     {
-        if (!await _service.DoesContractExist(dto.ContractId))
+        if (!await contractsService.DoesContractExist(dto.ContractId))
             return NotFound("Contract with this id does not exist");
 
         Payment payment = new Payment()
@@ -62,7 +63,7 @@ public class ContractsController: ControllerBase
             Date = dto.Date
         };
 
-        await _service.AddPayment(payment);
+        await contractsService.AddPayment(payment);
         
         return Created("/api/payments/"+payment.Id, payment);
     }
