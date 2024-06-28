@@ -1,5 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using project.Models.DTOs;
 using IAuthorizationService = project.Services.IAuthorizationService;
 
@@ -28,8 +32,7 @@ public class AuthorizationController : ControllerBase
     [HttpPost("/login")]
     public async Task<IActionResult> Login(EmployeeDTO dto)
     {
-        var response = await _service.Login(dto);
-        return Ok(response);
+        var token = await _service.Login(dto);
+        return Ok("Token: " + token);
     }
-    
 }

@@ -74,9 +74,7 @@ namespace project.Migrations
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefreshTokenExp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,8 +159,8 @@ namespace project.Migrations
                 columns: new[] { "Id", "ClientId", "EndDate", "IsSigned", "Price", "SoftwareId", "StartDate", "Version" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 27, 21, 25, 57, 704, DateTimeKind.Local).AddTicks(9990), "first" },
-                    { 2, 2, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 27, 21, 25, 57, 705, DateTimeKind.Local).AddTicks(270), "first" }
+                    { 1, 1, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(140), "first" },
+                    { 2, 2, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(400), "first" }
                 });
 
             migrationBuilder.InsertData(
@@ -170,9 +168,9 @@ namespace project.Migrations
                 columns: new[] { "Id", "EndTime", "Name", "StartTime", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Black Friday Discount", new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local), 10.0 },
-                    { 2, new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Year Discount", new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local), 15.0 },
-                    { 3, new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Summer Discount", new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local), 30.0 }
+                    { 1, new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Black Friday Discount", new DateTime(2024, 6, 28, 0, 0, 0, 0, DateTimeKind.Local), 10.0 },
+                    { 2, new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Year Discount", new DateTime(2024, 6, 28, 0, 0, 0, 0, DateTimeKind.Local), 15.0 },
+                    { 3, new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Summer Discount", new DateTime(2024, 6, 28, 0, 0, 0, 0, DateTimeKind.Local), 30.0 }
                 });
 
             migrationBuilder.InsertData(

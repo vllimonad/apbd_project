@@ -126,7 +126,7 @@ namespace project.Migrations
                             IsSigned = false,
                             Price = 28497.0,
                             SoftwareId = 1,
-                            StartDate = new DateTime(2024, 6, 27, 21, 25, 57, 704, DateTimeKind.Local).AddTicks(9990),
+                            StartDate = new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(140),
                             Version = "first"
                         },
                         new
@@ -137,7 +137,7 @@ namespace project.Migrations
                             IsSigned = false,
                             Price = 8575.0,
                             SoftwareId = 2,
-                            StartDate = new DateTime(2024, 6, 27, 21, 25, 57, 705, DateTimeKind.Local).AddTicks(270),
+                            StartDate = new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(400),
                             Version = "first"
                         });
                 });
@@ -173,7 +173,7 @@ namespace project.Migrations
                             Id = 1,
                             EndTime = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Black Friday Discount",
-                            StartTime = new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartTime = new DateTime(2024, 6, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Value = 10.0
                         },
                         new
@@ -181,7 +181,7 @@ namespace project.Migrations
                             Id = 2,
                             EndTime = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "New Year Discount",
-                            StartTime = new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartTime = new DateTime(2024, 6, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Value = 15.0
                         },
                         new
@@ -189,7 +189,7 @@ namespace project.Migrations
                             Id = 3,
                             EndTime = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Summer Discount",
-                            StartTime = new DateTime(2024, 6, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartTime = new DateTime(2024, 6, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Value = 30.0
                         });
                 });
@@ -209,13 +209,6 @@ namespace project.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RefreshToken")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RefreshTokenExp")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
                         .IsRequired()

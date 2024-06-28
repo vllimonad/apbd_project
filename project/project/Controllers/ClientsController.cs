@@ -17,9 +17,9 @@ public class ClientsController: ControllerBase
         _service = service;
     }
 
-    [Authorize]
     [HttpPost("/addIndividual")]
-    public IActionResult AddIndividual(NewIndividualDTO dto)
+    [Authorize]
+    public async Task<IActionResult> AddIndividual(NewIndividualDTO dto)
     {
         Individual individual = new Individual()
         {
@@ -30,13 +30,13 @@ public class ClientsController: ControllerBase
             Email = dto.Email,
             PhoneNumber = dto.PhoneNumber
         };
-        _service.AddIndividual(individual);
+       await _service.AddIndividual(individual);
         
         return Created("api/clients/"+individual.Id, individual);
     }
     
-    [Authorize]
     [HttpPost("/addCompany")]
+    [Authorize]
     public async Task<IActionResult> AddCompany(NewCompanyDTO dto)
     {
         Company company = new Company()
@@ -53,7 +53,7 @@ public class ClientsController: ControllerBase
     }
     
     [HttpDelete("/removeClient")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> RemoveClient(int id)
     {
         Company company = await _service.GetCompanyById(id);
@@ -71,7 +71,7 @@ public class ClientsController: ControllerBase
     }
     
     [HttpPost("/updateIndividual/{id}")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> UpdateIndividual(int id, UpdateIndividualDTO dto)
     {
         Individual individual = await _service.GetIndividualById(id);
@@ -88,7 +88,7 @@ public class ClientsController: ControllerBase
     }
     
     [HttpPost("/updateCompany/{id}")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> UpdateCompany(int id, UpdateCompanyDTO dto)
     {
         Company company = await _service.GetCompanyById(id);

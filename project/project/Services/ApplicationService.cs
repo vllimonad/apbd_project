@@ -1,25 +1,16 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using project.Data;
 using project.Models;
-using project.Models.DTOs;
 
 namespace project.Services;
 
 public class ApplicationService: IApplicationService
 {
     private readonly ApplicationContext _context;
-    private readonly IConfiguration _config;
 
-    public ApplicationService(ApplicationContext context, IConfiguration config)
+    public ApplicationService(ApplicationContext context)
     {
         _context = context;
-        _config = config;
     }
 
     public async Task AddIndividual(Individual individual)

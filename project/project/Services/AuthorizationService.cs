@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using project.Data;
 using project.Models;
@@ -23,65 +24,55 @@ public class AuthorizationService: IAuthorizationService
     
     public async Task Register(EmployeeDTO dto)
     {
-        var hashedPasswordAndSalt = GetHashedPasswordAndSalt(dto.Password);
+        if (_context.Employees.Any(u => u.Login.Equals(dto.Login))) 
+            throw new Exception("This login already exist");
 
+        var tuple = GetHashedPasswordAndSalt(dto.Password);
         var employee = new Employee()
         {
             Login = dto.Login,
             Role = "user",
-            Password = hashedPasswordAndSalt.Item1,
-            Salt = hashedPasswordAndSalt.Item2,
-            RefreshToken = GenerateRefreshToken(),
-            RefreshTokenExp = DateTime.Parse("2025-01-01")
+            Password = tuple.Item1,
+            Salt = tuple.Item2
         };
 
-        if (_context.Employees.Any(u => u.Login.Equals(dto.Login))) throw new Exception("This login already exist");
-        await _context.Employees.AddAsync(employee);
+        _context.Employees.Add(employee);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<string> Login(EmployeeDTO dto)
+    { 
+        if (! await _context.Employees.AnyAsync(u => u.Login.Equals(dto.Login))) 
+            throw new Exception("This employee does not exist");
+
+        Employee employee = await _context.Employees.FirstAsync(u => u.Login.Equals(dto.Login));
+        if (!GetHashedPasswordWithSalt(dto.Password, employee.Salt).Equals(employee.Password)) 
+            throw new Exception("Wrong credentials");
+
+        return await GenerateToken(employee);
+    }
     
-    public async Task<LoginResponseDTO> Login(EmployeeDTO dto)
+    
+    public async Task<string> GenerateToken(Employee employee)
     {
-        if (! _context.Employees.Any(u => u.Login.Equals(dto.Login))) throw new Exception("This employee does not exist");
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_config["JWT:Key"]);
         
-        Employee employee = _context.Employees.First(u => u.Login.Equals(dto.Login));
-        var hashedPasswordWithSalt = GetHashedPasswordWithSalt(dto.Password, employee.Salt); 
-        
-        if (!hashedPasswordWithSalt.Equals(employee.Password)) throw new Exception("Wrong credentials");
-        
-        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
-        SigningCredentials signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        Claim[] userclaim = new[]
+        var tokenDescriptor = new SecurityTokenDescriptor
         {
-            new Claim(ClaimTypes.Name, employee.Login),
-            new Claim(ClaimTypes.Role, employee.Role)
-           
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, employee.Login),
+                new Claim(ClaimTypes.Role, employee.Role)
+            }),
+            Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
-        
-        JwtSecurityToken token = new JwtSecurityToken(
-            issuer: _config["JWT:Issuer"],
-            audience: _config["JWT:Audience"],
-            expires: DateTime.UtcNow.AddMinutes(2),
-            signingCredentials: signingCredentials,
-            claims: userclaim
-        );
-        
-        
-        var stringToken = new JwtSecurityTokenHandler().WriteToken(token);
-        
-        var refreshToken = GenerateRefreshToken();
-        employee.RefreshToken = refreshToken;
-        employee.RefreshTokenExp = DateTime.Now.AddDays(3);
-        await _context.SaveChangesAsync();
-        return new LoginResponseDTO()
-        {
-            Token = stringToken,
-            RefreshToken = refreshToken
-        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
-    
-    public Tuple<string, string> GetHashedPasswordAndSalt(string password)
+
+    public static Tuple<string, string> GetHashedPasswordAndSalt(string password)
     {
         byte[] salt = new byte[128 / 8];
         using (var rng = RandomNumberGenerator.Create())
@@ -101,7 +92,7 @@ public class AuthorizationService: IAuthorizationService
         return new(hashed, saltBase64);
     }
 
-    public string GetHashedPasswordWithSalt(string password, string salt)
+    public static string GetHashedPasswordWithSalt(string password, string salt)
     {
         byte[] saltBytes = Convert.FromBase64String(salt);
 
@@ -113,15 +104,5 @@ public class AuthorizationService: IAuthorizationService
             numBytesRequested: 256 / 8));
 
         return currentHashedPassword;
-    }
-
-    public string GenerateRefreshToken()
-    {
-        var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
     }
 }
