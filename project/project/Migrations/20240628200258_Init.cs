@@ -42,6 +42,7 @@ namespace project.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClientType = table.Column<int>(type: "int", nullable: false),
                     IsSigned = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -156,11 +157,11 @@ namespace project.Migrations
 
             migrationBuilder.InsertData(
                 table: "Contracts",
-                columns: new[] { "Id", "ClientId", "EndDate", "IsSigned", "Price", "SoftwareId", "StartDate", "Version" },
+                columns: new[] { "Id", "ClientId", "ClientType", "EndDate", "IsSigned", "Price", "SoftwareId", "StartDate", "Version" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(140), "first" },
-                    { 2, 2, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(400), "first" }
+                    { 1, 1, 0, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 28497.0, 1, new DateTime(2024, 6, 28, 22, 2, 57, 712, DateTimeKind.Local).AddTicks(1360), "first" },
+                    { 2, 2, 0, new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 8575.0, 2, new DateTime(2024, 6, 28, 22, 2, 57, 712, DateTimeKind.Local).AddTicks(1760), "first" }
                 });
 
             migrationBuilder.InsertData(

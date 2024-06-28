@@ -22,14 +22,34 @@ public class ContractsController: ControllerBase
     [Authorize]
     public async Task<IActionResult> CreateContract(NewContractDTO dto)
     {
-        Company company = await clientsService.GetCompanyById(dto.ClientId);
-        Individual individual = await clientsService.GetIndividualById(dto.ClientId);
-        if ((company is null && individual is null) || individual.IsDeleted) 
-            return NotFound("Client with this id does not exist");
+        if (dto.ClientType == ClientType.Company)
+        {
+            Company company = await clientsService.GetCompanyById(dto.ClientId);
+            if (company is null) return NotFound("Company with this id does not exist");
+            
+            List<Contract> companyContracts = await contractsService.GetContractsOfCompany(company.Id);
+            for (int i = 0; i < companyContracts.Count; i++)
+            {
+                if (companyContracts[i].SoftwareId == dto.SoftwareId)
+                    return BadRequest("This company already has contract for this software");
+            }
+        }
+        else
+        {
+            Individual individual = await clientsService.GetIndividualById(dto.ClientId);
+            if (individual is null || individual.IsDeleted) return NotFound("Individual client with this id does not exist");
+            
+            List<Contract> individualContracts = await contractsService.GetContractsOfIndividual(individual.Id);
+            for (int i = 0; i < individualContracts.Count; i++)
+            {
+                if (individualContracts[i].SoftwareId == dto.SoftwareId)
+                    return BadRequest("This individual client already has contract for this software");
+            }
+        }
 
         if (!await contractsService.DoesSoftwareExist(dto.SoftwareId)) 
             return NotFound("Software with this id does not exist");
-
+        
         int NumberOfDays = (dto.EndDate - dto.StartDate).Days;
         if (NumberOfDays < 3 || NumberOfDays > 30)
             return BadRequest("The time range should be at least 3 days and at most 30 days");
@@ -41,7 +61,8 @@ public class ContractsController: ControllerBase
             Price = dto.Price,
             Version = dto.Version,
             StartDate = dto.StartDate,
-            EndDate = dto.EndDate
+            EndDate = dto.EndDate,
+            ClientType = dto.ClientType
         };
 
         await contractsService.AddContract(contract);

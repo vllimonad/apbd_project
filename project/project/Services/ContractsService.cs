@@ -51,4 +51,18 @@ public class ContractsService: IContractsService
         _context.Contracts.Update(contract);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<List<Contract>> GetContractsOfCompany(int id)
+    {
+        return await _context.Contracts
+            .Where(c => c.ClientType == ClientType.Company && c.ClientId == id)
+            .ToListAsync();
+    }
+    
+    public async Task<List<Contract>> GetContractsOfIndividual(int id)
+    {
+        return await _context.Contracts
+            .Where(c => c.ClientType == ClientType.Individual && c.ClientId == id)
+            .ToListAsync();
+    }
 }

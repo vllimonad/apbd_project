@@ -66,8 +66,8 @@ public class ApplicationContext: DbContext
         
         modelBuilder.Entity<Contract>().HasData(new List<Contract>()
         {
-            new() { Id = 1, ClientId = 1, SoftwareId = 1, Price = 28497, Version = "first", IsSigned = false, StartDate = DateTime.Now, EndDate = DateTime.Parse("2024-07-07")},
-            new() { Id = 2, ClientId = 2, SoftwareId = 2, Price = 8575, Version = "first", IsSigned = false, StartDate = DateTime.Now, EndDate = DateTime.Parse("2024-07-07")},
+            new() { Id = 1, ClientId = 1, SoftwareId = 1, Price = 28497, Version = "first", IsSigned = false, StartDate = DateTime.Now, EndDate = DateTime.Parse("2024-07-07"), ClientType = ClientType.Company},
+            new() { Id = 2, ClientId = 2, SoftwareId = 2, Price = 8575, Version = "first", IsSigned = false, StartDate = DateTime.Now, EndDate = DateTime.Parse("2024-07-07"), ClientType = ClientType.Company},
         });
         
         modelBuilder.Entity<Payment>().HasData(new List<Payment>()

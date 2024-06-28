@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using project.Models.DTOs;
 
 namespace project.Models;
 
@@ -17,6 +18,8 @@ public class Contract
     public DateTime StartDate { get; set; }
     [Required]
     public DateTime EndDate { get; set; }
+    [Required]
+    public ClientType ClientType { get; set; }
 
     [Required] public bool IsSigned { get; set; } = false;
 
@@ -25,4 +28,9 @@ public class Contract
     [ForeignKey(nameof(SoftwareId))]
     public Software Software = null!;
     public ICollection<Payment> Payments = new List<Payment>();
+}
+
+public enum ClientType
+{
+    Company, Individual
 }

@@ -7,6 +7,8 @@ public class NewContractDTO
     [Required]
     public int ClientId { get; set; }
     [Required]
+    public ClientType ClientType { get; set; }
+    [Required]
     public int SoftwareId { get; set; }
     [Required]
     public string Version { get; set; } = String.Empty;

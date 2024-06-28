@@ -12,7 +12,7 @@ using project.Data;
 namespace project.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240628142042_Init")]
+    [Migration("20240628200258_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -97,6 +97,9 @@ namespace project.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ClientType")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -125,22 +128,24 @@ namespace project.Migrations
                         {
                             Id = 1,
                             ClientId = 1,
+                            ClientType = 0,
                             EndDate = new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSigned = false,
                             Price = 28497.0,
                             SoftwareId = 1,
-                            StartDate = new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(140),
+                            StartDate = new DateTime(2024, 6, 28, 22, 2, 57, 712, DateTimeKind.Local).AddTicks(1360),
                             Version = "first"
                         },
                         new
                         {
                             Id = 2,
                             ClientId = 2,
+                            ClientType = 0,
                             EndDate = new DateTime(2024, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsSigned = false,
                             Price = 8575.0,
                             SoftwareId = 2,
-                            StartDate = new DateTime(2024, 6, 28, 16, 20, 41, 842, DateTimeKind.Local).AddTicks(400),
+                            StartDate = new DateTime(2024, 6, 28, 22, 2, 57, 712, DateTimeKind.Local).AddTicks(1760),
                             Version = "first"
                         });
                 });
