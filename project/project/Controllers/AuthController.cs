@@ -1,21 +1,17 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using project.Models.DTOs;
-using IAuthorizationService = project.Services.IAuthorizationService;
+using project.Services;
 
 namespace project.Controllers;
 
 [ApiController]
 [Route("api/authorization")]
-public class AuthorizationController : ControllerBase
+public class AuthController : ControllerBase
 {
-    private readonly IAuthorizationService _service;
+    private readonly IAuthService _service;
 
-    public AuthorizationController(IAuthorizationService service)
+    public AuthController(IAuthService service)
     {
         _service = service;
     }

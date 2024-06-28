@@ -11,12 +11,12 @@ using project.Models.DTOs;
 
 namespace project.Services;
 
-public class AuthorizationService: IAuthorizationService
+public class AuthService: IAuthService
 {
     private readonly ApplicationContext _context;
     private readonly IConfiguration _config;
 
-    public AuthorizationService(ApplicationContext context, IConfiguration config)
+    public AuthService(ApplicationContext context, IConfiguration config)
     {
         _context = context;
         _config = config;
